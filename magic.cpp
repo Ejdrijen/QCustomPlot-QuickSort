@@ -1,14 +1,40 @@
 #include "magic.h"
-#include <iostream>
+#include <QtGlobal>
 #include <stdlib.h>
+#include <QElapsedTimer>
+
 
 Magic::Magic(){}
+//int begin - hodnota na ktorej zaciname;
+//int step - o kolko zvacsujeme pole;
+//int count pocet prvkov pola;
+QVector<double> Magic::GenerateAndSort(int begin, int step, int count){
 
-int Magic::GenerateAndSort(int size){
-    int * array = Magic::GenerateArray(size);//generuje pole zadanej velkosti
-    Magic::QuickSort(array,0,size-1);
-    return 0;
+    QVector<double> intervals(count);
+    int * array;
+    QElapsedTimer timer;
+    timer.start();
+
+    for(int i=0;i<count;i++){
+
+        array = Magic::GenerateArray(begin);//generuje pole zadanej velkosti
+        Magic::QuickSort(array,0,begin-1);
+        intervals[i]=timer.nsecsElapsed()/1000;//vracia cas v nanosekundach -> /1000=mikrosekundy
+        delete array;
+        begin+=step; //velkost dalsieho pola
+    }
+
+    return intervals;
 }
+QVector<double> Magic::getXAxisValues(int begin,int step,int count){
+    QVector<double> Xvalues(count);
+    for(int i=0;i<count;i++){
+        Xvalues[i]=begin+(i*step);
+    }
+    return Xvalues;
+}
+
+
 
 int * Magic::GenerateArray(int size){
     int * array = new int[size];
@@ -18,9 +44,9 @@ int * Magic::GenerateArray(int size){
     return array;
 
 }
-int Magic::QuickSort(int * array,int start,int end){
+void Magic::QuickSort(int * array,int start,int end){
    Magic::recursiveQuickS(array,start,end);
-   return 0;
+
 }
 
 

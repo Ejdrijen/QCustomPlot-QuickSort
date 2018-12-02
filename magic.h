@@ -1,15 +1,17 @@
 #ifndef MAGIC_H
 #define MAGIC_H
+#include <QVector>
 
 
 class Magic
 {
 public:
     Magic();
-    int GenerateAndSort(int size); //vytvori pole, zosortuje
+QVector<double> GenerateAndSort(int begin, int step, int count); //vytvori pole, zosortuje, vrati vektor casov
+QVector<double> getXAxisValues(int begin,int step,int count);
 private:
     int * GenerateArray(int size);
-    int QuickSort(int * array,int start,int end);
+    void QuickSort(int * array,int start,int end);
     void recursiveQuickS(int * array,int start,int end);
     int sorting(int * array,int start,int end);
 
